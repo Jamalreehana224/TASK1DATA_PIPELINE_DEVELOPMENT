@@ -1,0 +1,73 @@
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+data = {
+    'Name': ['Alice', 'Bob', 'Charlie', 'David', np.nan],
+    'Age': [25, np.nan, 35, 45, 29],
+    'Gender': ['F', 'M', 'M', 'M', 'F'],
+    'Income': [50000, 60000, np.nan, 80000, 72000],
+    'City': ['New York', 'Los Angeles', 'New York', 'Chicago', 'Chicago']
+}
+df_raw = pd.DataFrame(data)
+print(" *Raw Data *:")
+print(df_raw)
+num_cols = ['Age', 'Income']
+cat_cols = ['Gender', 'City']
+num_pipeline = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='mean')),
+    ('scaler', StandardScaler())
+])
+cat_pipeline = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='most_frequent')),
+    ('encoder', OneHotEncoder(handle_unknown='ignore'))
+])
+preprocessor = ColumnTransformer(transformers=[
+    ('num', num_pipeline, num_cols),
+    ('cat', cat_pipeline, cat_cols)
+])
+df_features = df_raw.drop(columns=['Name'])
+processed_data = preprocessor.fit_transform(df_features)
+cat_features = preprocessor.named_transformers_['cat']['encoder'].get_feature_names_out(cat_cols)
+final_columns = num_cols + list(import pandas as pd
+import numpy as np
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+data = {
+    'Name': ['Alice', 'Bob', 'Charlie', 'David', np.nan],
+    'Age': [25, np.nan, 35, 45, 29],
+    'Gender': ['F', 'M', 'M', 'M', 'F'],
+    'Income': [50000, 60000, np.nan, 80000, 72000],
+    'City': ['New York', 'Los Angeles', 'New York', 'Chicago', 'Chicago']
+}
+df_raw = pd.DataFrame(data)
+print(" *Raw Data *:")
+print(df_raw)
+num_cols = ['Age', 'Income']
+cat_cols = ['Gender', 'City']
+num_pipeline = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='mean')),
+    ('scaler', StandardScaler())
+])
+cat_pipeline = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='most_frequent')),
+    ('encoder', OneHotEncoder(handle_unknown='ignore'))
+])
+preprocessor = ColumnTransformer(transformers=[
+    ('num', num_pipeline, num_cols),
+    ('cat', cat_pipeline, cat_cols)
+])
+df_features = df_raw.drop(columns=['Name'])
+processed_data = preprocessor.fit_transform(df_features)
+cat_features = preprocessor.named_transformers_['cat']['encoder'].get_feature_names_out(cat_cols)
+final_columns = num_cols + list(cat_features)
+df_processed = pd.DataFrame(processed_data, columns=final_columns)
+
+print("\n *Transformed Data *:")
+print(df_processed)
+df_processed.to_csv("processed_data.csv", index=False)
+print("\n * Processed data saved to 'processed_data.csv *'")
